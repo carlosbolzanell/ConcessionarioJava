@@ -128,5 +128,17 @@ public class Main {
         ((Funcionario)usuarioLogado).venderVeiculo(codigo, usuario);
         System.out.println("Veiculo vendido!");
     }
-    
+    public static void procurarCliente(){
+        System.out.print("Usuario: ");
+        String usuario = sc.next();
+        Usuario user = ((Funcionario)usuarioLogado).procurarCliente(usuario);
+        if(user != null){
+            System.out.print(user.toString());
+        }else{
+            System.out.println("Usuario não encontrado");
+        }
+    }
+    public static void verPagamento(){
+        System.out.println("Fazer depois");
+    }
 }
