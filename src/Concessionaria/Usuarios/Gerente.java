@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Gerente extends Funcionario{
 
-    public Gerente(String nome, String usuario, String senha, double salario, long codigo) {
+    public Gerente(String nome, String usuario, String senha, double salario, int codigo) {
         super(nome, usuario, senha, salario, codigo, 0.02);
     }
 
@@ -16,9 +16,7 @@ public class Gerente extends Funcionario{
     public void removerVeiculo(Veiculo veiculo){
         Veiculo.removerVeiculo(veiculo);
     }
-    public void editarVeiculo(Veiculo veiculo){
-        hashCode();
-    }
+    public void editarVeiculo(Veiculo veiculo){hashCode();}
     public void alterarPreco(Veiculo veiculo, double preco){
         veiculo.setPreco(preco);
     }
@@ -33,7 +31,8 @@ public class Gerente extends Funcionario{
         }
     }
     public void editUsuario(Usuario usuario){
-        usuario.hashCode();
+        int index = usuarios.indexOf(usuario);
+        usuarios.set(index, usuario);
     }
     public String verVendedores(){
         String vendedores = "";

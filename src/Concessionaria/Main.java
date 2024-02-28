@@ -141,4 +141,23 @@ public class Main {
     public static void verPagamento(){
         System.out.println("Fazer depois");
     }
+    public static void editarUsuario(){
+        System.out.print("Qual o usuário");
+        String username = sc.next();
+        Usuario usuarioEditado = Usuario.procurarUsuario(username);
+        System.out.println("""
+                Qual informação deseja aterar
+                1 - Nome
+                2 - Usuario
+                3 - Senha
+                4 - Alterar Tudo""");
+        int escolha = sc.nextInt();
+        switch (escolha){
+            case 1 -> {
+                System.out.print("Qual o nome ");
+                String nomeEditado = sc.next();
+            }
+        }
+        ((Gerente)usuarioLogado).editUsuario(usuarioEditado);
+    }
 }

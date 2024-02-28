@@ -3,21 +3,21 @@ package Concessionaria.Usuarios;
 import java.util.ArrayList;
 
 public abstract class Funcionario extends Usuario{
-    private ArrayList<Float> pagamentos = new ArrayList<>();
+    private ArrayList<Double> pagamentos = new ArrayList<>();
     private double salario;
-    private long codigo;
+    private int codigo;
     private double comissao;
 
-    public Funcionario(String nome, String usuario, String senha, double salario, long codigo, double comissao) {
+    public Funcionario(String nome, String usuario, String senha, double salario, int codigo, double comissao) {
         super(nome, usuario, senha);
         this.salario = salario;
         this.codigo = codigo;
         this.comissao = comissao;
     }
-    public ArrayList<Float> getPagamentos(){
+    public ArrayList<Double> getPagamentos(){
         return pagamentos;
     }
-    public void addPagamento(Float pagamento){
+    public void addPagamento(Double pagamento){
         pagamentos.add(pagamento);
     }
     public Usuario procurarCliente(String usuario){
