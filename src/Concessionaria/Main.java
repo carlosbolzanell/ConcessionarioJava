@@ -113,20 +113,16 @@ public class Main {
     public static void venderVeiculo(){
         System.out.print("Codigo do veiculo: ");
         int codigo = sc.nextInt();
-        if(Veiculo.procurarVeiculo(codigo) == null){
-            System.out.println("Veiculo inexistente");
-            return;
-        }
+        Veiculo veiculo = Veiculo.procurarVeiculo(codigo);
         System.out.println("Usuario do cliente: ");
         String cliente = sc.next();
-
         Usuario usuario = Usuario.procurarUsuario(cliente);
-        if(usuario == null){
-            System.out.println("Usuario inexistente!");
-            return;
+        if(((Funcionario)usuarioLogado).venderVeiculo(veiculo , usuario)){
+            System.out.println("Veiculo vendido!");
+            ((Vendedor)usuarioLogado).addPagamento(veiculo.getPreco());
+        }else{
+            System.out.println("Dados incorretos");
         }
-        ((Funcionario)usuarioLogado).venderVeiculo(codigo, usuario);
-        System.out.println("Veiculo vendido!");
     }
     public static void procurarCliente(){
         System.out.print("Usuario: ");

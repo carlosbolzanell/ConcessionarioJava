@@ -55,6 +55,9 @@ public abstract class Veiculo {
     public void setPreco(double preco) {
         this.preco = preco;
     }
+    public double getPreco(){
+        return this.preco;
+    }
 
     public static void addVeiculo(Veiculo veiculo){
         veiculos.add(veiculo);

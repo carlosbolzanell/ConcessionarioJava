@@ -16,9 +16,9 @@ public class Gerente extends Funcionario{
     public void removerVeiculo(Veiculo veiculo){
         Veiculo.removerVeiculo(veiculo);
     }
-    public void editarVeiculo(Veiculo veiculo){hashCode();}
-    public void alterarPreco(Veiculo veiculo, double preco){
-        veiculo.setPreco(preco);
+    public void editarVeiculo(Veiculo veiculo){
+        int index = Veiculo.getVeiculos().indexOf(veiculo);
+        Veiculo.getVeiculos().set(index, veiculo);
     }
     public void cadastrarUsuario(Usuario usuario){
         if(!(usuario instanceof Gerente)){

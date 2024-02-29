@@ -54,6 +54,18 @@ public abstract class Usuario {
         return veiculos;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
     @Override
     public String toString() {
         return "veiculos: " + veiculos + "\n"+
