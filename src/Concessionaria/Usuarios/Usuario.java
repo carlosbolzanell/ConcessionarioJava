@@ -19,7 +19,7 @@ public abstract class Usuario {
     public static Usuario procurarUsuario(String usuario){
         for (Usuario user:
              usuarios) {
-            if(user.nome.equals(usuario)){
+            if(user.usuario.equals(usuario)){
                 return user;
             }
         }
