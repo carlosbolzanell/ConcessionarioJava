@@ -231,7 +231,7 @@ public class Main {
         }
         System.out.println("Veiculo não encontrado");
     }
-    
+
     public static void editarUsuario(){
         System.out.print("Qual o usuário");
         String username = sc.next();
