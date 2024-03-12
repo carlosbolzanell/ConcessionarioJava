@@ -3,7 +3,7 @@ package Concessionaria.Veiculos;
 import java.util.ArrayList;
 
 public abstract class Veiculo {
-    private int codigo;
+    private final int codigo = veiculos.size()+1;
     private String modelo;
     private int ano;
     private String cor;
@@ -13,8 +13,7 @@ public abstract class Veiculo {
     private double preco;
     private static final ArrayList<Veiculo> veiculos = new ArrayList<>();
 
-    public Veiculo(int codigo, String modelo, int ano, String cor, String marca, double quilometragem, String alimentacao, double preco) {
-        this.codigo = codigo;
+    public Veiculo(String modelo, int ano, String cor, String marca, double quilometragem, String alimentacao, double preco) {
         this.modelo = modelo;
         this.ano = ano;
         this.cor = cor;
@@ -24,32 +23,8 @@ public abstract class Veiculo {
         this.preco = preco;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public void setQuilometragem(double quilometragem) {
-        this.quilometragem = quilometragem;
-    }
-
-    public void setAlimentacao(String alimentacao) {
-        this.alimentacao = alimentacao;
+    public int getCodigo(){
+        return this.codigo;
     }
 
     public void setPreco(double preco) {
@@ -59,11 +34,11 @@ public abstract class Veiculo {
         return this.preco;
     }
 
-    public static void addVeiculo(Veiculo veiculo){
-        veiculos.add(veiculo);
+    public void addVeiculo(){
+        veiculos.add(this);
     }
-    public static void removerVeiculo(Veiculo veiculo){
-        veiculos.remove(veiculo);
+    public void removerVeiculo(){
+        veiculos.remove(this);
     }
     public static Veiculo procurarVeiculo(int codigo){
         for (Veiculo veiculo:

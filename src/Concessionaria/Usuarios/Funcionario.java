@@ -5,7 +5,7 @@ import Concessionaria.Veiculos.Veiculo;
 import java.util.ArrayList;
 
 public abstract class Funcionario extends Usuario{
-    private ArrayList<Double> pagamentos = new ArrayList<>();
+    private ArrayList<String> pagamentos = new ArrayList<>();
     private double salario;
     private int codigo;
     private double comissao;
@@ -16,12 +16,20 @@ public abstract class Funcionario extends Usuario{
         this.codigo = codigo;
         this.comissao = comissao;
     }
-    public ArrayList<Double> getPagamentos(){
+    public String menu(){
+        return super.menu() + "\n" +
+                """
+                   4-Vender veiculo
+                   5-Procurar cliente
+                   6-Ver pagamento
+                """;
+    }
+    public ArrayList<String> getPagamentos(){
         return pagamentos;
     }
     public void addPagamento(double pagamento){
         double pagamentoComissao = pagamento * this.comissao;
-        pagamentos.add(pagamentoComissao);
+        pagamentos.add("R$ "+pagamentoComissao);
     }
     public Usuario procurarCliente(String usuario){
         return Usuario.procurarUsuario(usuario);
@@ -34,10 +42,11 @@ public abstract class Funcionario extends Usuario{
             return false;
         }
         usuario.addVeiculo(veiculo);
+        this.addPagamento(veiculo.getPreco());
         return true;
     }
-    public void setSalario(double salario){
-        this.salario = salario;
+    public int getCodigo(){
+        return this.codigo;
     }
 
     @Override

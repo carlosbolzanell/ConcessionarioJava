@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public abstract class Usuario {
     protected static final ArrayList<Usuario> usuarios = new ArrayList<>();
-    private ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private final ArrayList<Veiculo> veiculos = new ArrayList<>();
+    private final int ID = usuarios.size()+1;
     private String nome;
     private String usuario;
     private String senha;
@@ -25,13 +26,32 @@ public abstract class Usuario {
         }
         return null;
     }
-
-    public static void addUsuario(Usuario usuario){
-        usuarios.add(usuario);
+    public static Usuario procurarUsuario(int id){
+        for(Usuario usuario : usuarios){
+            if(usuario.getId() == id){
+                return usuario;
+            }
+        }
+        return null;
+    }
+    public String menu(){
+        return """
+                Bem vindo a concessionaria
+                1-Ver veiculos em estoque
+                2-Ver detalhes de um veiculo
+                3-Ver meus veiculos
+                """;
+    }
+    public int getId(){
+        return this.ID;
     }
 
-    public static void removeUsuario(Usuario usuario){
-        usuarios.remove(usuario);
+    public void addUsuario(){
+        usuarios.add(this);
+    } //Não static, por que já existe o usuario
+
+    public void removeUsuario(){
+        usuarios.remove(this);
     }
 
     public void addVeiculo(Veiculo veiculo){
@@ -41,8 +61,7 @@ public abstract class Usuario {
         veiculos.remove(veiculo);
     }
     public static Usuario login(String usuario, String senha){
-        for (Usuario user:
-             usuarios) {
+        for (Usuario user: usuarios) {
             if(user.usuario.equals(usuario) && user.senha.equals(senha)){
                 return user;
             }
@@ -54,16 +73,8 @@ public abstract class Usuario {
         return veiculos;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public String getNome(){
+        return this.nome;
     }
 
     @Override
