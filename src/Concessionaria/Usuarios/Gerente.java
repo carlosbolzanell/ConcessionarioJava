@@ -10,7 +10,7 @@ public class Gerente extends Funcionario{
         super(nome, usuario, senha, salario, codigo, 0.02);
     }
     public String menu(){
-        return super.menu() + "\n" +
+        return super.menu() +
                 """
                 7-Cadastrar Veiculo
                 8-Remover Veículo

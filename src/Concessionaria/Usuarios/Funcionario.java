@@ -17,11 +17,11 @@ public abstract class Funcionario extends Usuario{
         this.comissao = comissao;
     }
     public String menu(){
-        return super.menu() + "\n" +
+        return super.menu() +
                 """
-                   4-Vender veiculo
-                   5-Procurar cliente
-                   6-Ver pagamento
+                4-Vender veiculo
+                5-Procurar cliente
+                6-Ver pagamento
                 """;
     }
     public ArrayList<String> getPagamentos(){

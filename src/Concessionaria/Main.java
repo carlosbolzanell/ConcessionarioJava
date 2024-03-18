@@ -1,5 +1,9 @@
 package Concessionaria;
 
+import Concessionaria.Exceptions.PrecoInvalidoException;
+import Concessionaria.Exceptions.UsuarioExistenteException;
+import Concessionaria.Exceptions.VeiculoExistenteException;
+import Concessionaria.Exceptions.VeiculoNaoEncontradoException;
 import Concessionaria.Usuarios.*;
 import Concessionaria.Veiculos.*;
 
@@ -14,9 +18,9 @@ public class Main {
         Usuario carlos = new Cliente("Carlos", "carlos", "123");
         Usuario victor = new Vendedor("Victor", "victor", "123", 1200, 12345);
         Usuario luana = new Gerente("Luana", "luana", "123", 3000, 123);
-        Veiculo carro = new Carro("Civic", 2017, "Branco", "Honda", 56.984, "Disel", 79000, "Sedan", 4, "Automatico",true);
-        Veiculo moto = new Moto("CG", 2020, "Vermelho", "Honda", 198.654, "Gasolina", 11000, false, 125, "Street","Elétrica");
-        Veiculo caminhao = new Caminhao("FH 540", 2022, "Azul", "Volvo", 161.865, "Disel", 925000, "Cavalo Mecânico", "6x4", "Leito");
+        Veiculo carro = new Carro("MCH-1987","Civic", 2017, "Branco", "Honda", 56.984, "Disel", 79000, "Sedan", 4, "Automatico",true);
+        Veiculo moto = new Moto("JVK-8976","CG", 2020, "Vermelho", "Honda", 198.654, "Gasolina", 11000, false, 125, "Street","Elétrica");
+        Veiculo caminhao = new Caminhao("BBK-2905","FH 540", 2022, "Azul", "Volvo", 161.865, "Disel", 925000, "Cavalo Mecânico", "6x4", "Leito");
         carlos.addUsuario();
         victor.addUsuario();
         luana.addUsuario();
@@ -39,14 +43,45 @@ public class Main {
     }
     public static Veiculo procuraVeiculo(){
         int codigo = inputInt("Codigo do veiculo: ");
-        return Veiculo.procurarVeiculo(codigo);
+        Veiculo veiculoEncontrado = null;
+        try {
+            veiculoEncontrado = Veiculo.procurarVeiculo(codigo);
+        }catch (VeiculoNaoEncontradoException exception){
+            System.out.println(exception.getMessage());
+        }
+        return veiculoEncontrado;
     }
     public static Usuario procuraUsuario(){
         String usuario = input("Usuario: ");
         return Usuario.procurarUsuario(usuario);
     }
+    public static String verificarPlaca(){
+        String placa = input("Placa: ");
+        try{
+            Veiculo.procurarVeiculo(placa);
+        }catch (VeiculoExistenteException exception){
+            System.out.println(exception.getMessage());
+            placa = "";
+        }
+        return placa;
+    }
+    public static double verificaPreco(){
+        double preco = inputDouble("Preço: ");
+        try{
+            Veiculo.verificarPreco(preco);
+        }catch(PrecoInvalidoException exception){
+            System.out.println(exception.getMessage());
+            preco = 0;
+        }
+        return preco;
+    }
     public static ArrayList<String> infoVeiculo(){
         ArrayList<String> infos = new ArrayList<>();
+        String placa = "";
+        do {
+            placa = verificarPlaca();
+        }while (placa.equals(""));
+        infos.add(placa);
         String modelo = input("Modelo: ");
         infos.add(modelo);
         int ano = inputInt("Ano: ");
@@ -59,7 +94,10 @@ public class Main {
         infos.add(String.valueOf(kms));
         String combustivel = input("Combustível");
         infos.add(combustivel);
-        double preco = inputDouble("Preço: ");
+        double preco = 0;
+        do {
+            preco = verificaPreco();
+        }while (preco == 0);
         infos.add(String.valueOf(preco));
         return infos;
     }
@@ -97,19 +135,24 @@ public class Main {
         infos.add(cabine);
         return infos;
     }
+    public static String verificarUsuario(){
+        String usuario = input("Usuario: ");
+        try{
+            Usuario.verificarUsuario(usuario);
+        }catch (UsuarioExistenteException exception){
+            System.out.println(exception.getMessage());
+            usuario = "";
+        }
+        return usuario;
+    }
     public static String[] infoCliente(){
         String[] infos = new String[3];
         String nome = input("Nome: ");
         infos[0] = nome;
-        Usuario newUser = null;
         String usuario = "";
         do {
-            usuario = input("Usuario: ");
-            newUser = Usuario.procurarUsuario(usuario);
-            if (newUser != null) {
-                System.out.println("Usuario já existe!");
-            }
-        }while(newUser != null);
+            usuario = verificarUsuario();
+        }while(usuario.equals(""));
         infos[1] = usuario;
         String senha = input("Senha: ");
         infos[2] = senha;
@@ -256,19 +299,19 @@ public class Main {
         if(veiculo != null){
             ((Gerente)usuarioLogado).removerVeiculo(veiculo);
             System.out.print("Veiculo removido com sucesso");
-            return;
         }
-        System.out.println("Veiculo não encontrado");
     }
     public static void alterarPreco(){
         Veiculo veiculoEditado = procuraVeiculo();
         if(veiculoEditado != null){
             double novoPreco = inputDouble("Novo Preço: ");
-            veiculoEditado.setPreco(novoPreco);
-            System.out.println("Preço editado com sucesso!");
-            return;
+            try {
+                veiculoEditado.setPreco(novoPreco);
+                System.out.println("Preço editado com sucesso!");
+            }catch(PrecoInvalidoException exception){
+                System.out.println(exception.getMessage());
+            }
         }
-        System.out.println("Veiculo não encontrado!");
     }
 
     public static void editarVeiculo(){
@@ -288,17 +331,17 @@ public class Main {
 
     private static void inserirCarro(ArrayList<String> infos) {
         ArrayList<String> infosEspecificas = infoCarro();
-        ((Gerente)usuarioLogado).cadastrarVeiculo(new Carro(infos.get(0), Integer.parseInt(infos.get(1)), infos.get(2), infos.get(3), Double.parseDouble(infos.get(4)), infos.get(5), Double.parseDouble(infos.get(6)), infosEspecificas.get(0), Integer.parseInt(infosEspecificas.get(1)), infosEspecificas.get(2), (Integer.parseInt(infosEspecificas.get(3))==1) ));
+        ((Gerente)usuarioLogado).cadastrarVeiculo(new Carro(infos.get(0),infos.get(1), Integer.parseInt(infos.get(2)), infos.get(3), infos.get(4), Double.parseDouble(infos.get(5)), infos.get(6), Double.parseDouble(infos.get(7)), infosEspecificas.get(0), Integer.parseInt(infosEspecificas.get(1)), infosEspecificas.get(2), (Integer.parseInt(infosEspecificas.get(3))==1) ));
     }
 
     private static void inserirMoto(ArrayList<String> infos) {
         ArrayList<String> infosEspecificas = infoMoto();
-        ((Gerente)usuarioLogado).cadastrarVeiculo(new Moto(infos.get(0), Integer.parseInt(infos.get(1)), infos.get(2), infos.get(3), Double.parseDouble(infos.get(4)), infos.get(5), Double.parseDouble(infos.get(6)), (Integer.parseInt(infosEspecificas.get(0)) == 1), Integer.parseInt(infosEspecificas.get(1)), infosEspecificas.get(2), infosEspecificas.get(3) ));
+        ((Gerente)usuarioLogado).cadastrarVeiculo(new Moto(infos.get(0),infos.get(1), Integer.parseInt(infos.get(2)), infos.get(3), infos.get(4), Double.parseDouble(infos.get(5)), infos.get(6), Double.parseDouble(infos.get(7)), (Integer.parseInt(infosEspecificas.get(0)) == 1), Integer.parseInt(infosEspecificas.get(1)), infosEspecificas.get(2), infosEspecificas.get(3) ));
     }
 
     private static void inserirCaminhao(ArrayList<String> infos) {
         ArrayList<String> infosEspecificas = infoCaminhao();
-        ((Gerente)usuarioLogado).cadastrarVeiculo(new Caminhao(infos.get(0), Integer.parseInt(infos.get(1)), infos.get(2), infos.get(3), Double.parseDouble(infos.get(4)), infos.get(5), Double.parseDouble(infos.get(6)), infosEspecificas.get(0), infosEspecificas.get(1), infosEspecificas.get(2) ));
+        ((Gerente)usuarioLogado).cadastrarVeiculo(new Caminhao(infos.get(0),infos.get(1), Integer.parseInt(infos.get(2)), infos.get(3), infos.get(4), Double.parseDouble(infos.get(5)), infos.get(6), Double.parseDouble(infos.get(7)), infosEspecificas.get(0), infosEspecificas.get(1), infosEspecificas.get(2) ));
     }
 
     public static void cadastrarUsuario(){;

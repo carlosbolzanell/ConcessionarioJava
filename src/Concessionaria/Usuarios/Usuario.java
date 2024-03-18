@@ -1,5 +1,6 @@
 package Concessionaria.Usuarios;
 
+import Concessionaria.Exceptions.UsuarioExistenteException;
 import Concessionaria.Veiculos.Veiculo;
 
 import java.util.ArrayList;
@@ -33,6 +34,14 @@ public abstract class Usuario {
             }
         }
         return null;
+    }
+    public static void verificarUsuario(String usuario) throws UsuarioExistenteException {
+        for (Usuario user:
+                usuarios) {
+            if(user.usuario.equals(usuario)){
+                throw new UsuarioExistenteException();
+            }
+        }
     }
     public String menu(){
         return """
