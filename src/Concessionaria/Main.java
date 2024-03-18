@@ -153,7 +153,7 @@ public class Main {
     }
     public static void menuLogado(){
         do {
-            usuarioLogado.menu();
+            System.out.println(usuarioLogado.menu());
             System.out.println("0-logout");
             int escolha = sc.nextInt();
             switch (escolha) {
@@ -161,9 +161,13 @@ public class Main {
                 case 1 -> veiculosEstoque();
                 case 2 -> detalhesVeiculos();
                 case 3 -> verVeiculos();
+            }
+            switch (escolha){
                 case 4 -> {if(usuarioLogado instanceof Funcionario) venderVeiculo();}
                 case 5 -> {if (usuarioLogado instanceof Funcionario) procurarCliente();}
                 case 6 -> {if (usuarioLogado instanceof Funcionario) verPagamento();}
+            }
+            switch (escolha){
                 case 7 -> {if (usuarioLogado instanceof  Gerente) cadastrarVeiculo();}
                 case 8 -> {if (usuarioLogado instanceof  Gerente) removerVeiculo();}
                 case 9 -> {if (usuarioLogado instanceof  Gerente) editarVeiculo();}
@@ -206,8 +210,7 @@ public class Main {
     }
     public static void venderVeiculo(){
         Veiculo veiculo = procuraVeiculo();
-        String cliente = input("Usuario do cliente: ");
-        Usuario usuario = Usuario.procurarUsuario(cliente);
+        Usuario usuario = procuraUsuario();
         if(((Funcionario)usuarioLogado).venderVeiculo(veiculo , usuario)){
             System.out.println("Veiculo vendido!");
             veiculo.removerVeiculo();
@@ -235,7 +238,6 @@ public class Main {
                 3-Caminhão""");
         int escolha = sc.nextInt();
         ArrayList<String> infos = infoVeiculo();
-        ArrayList<String> infosEspecificas;
         switch (escolha){
             case 1->{
                 inserirCarro(infos);
