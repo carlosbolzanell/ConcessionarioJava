@@ -4,7 +4,7 @@ import Concessionaria.Veiculos.*;
 
 import java.util.ArrayList;
 
-public class Gerente extends Funcionario{
+public class Gerente extends Funcionario implements RemovedorUsuario{
 
     public Gerente(String nome, String usuario, String senha, double salario, int codigo) {
         super(nome, usuario, senha, salario, codigo, 0.02);
@@ -82,5 +82,10 @@ public class Gerente extends Funcionario{
     }
     public String verPagamento(Vendedor usuario){
         return usuario.getPagamentos().toString();
+    }
+
+    @Override
+    public void removerUsuario() {
+
     }
 }

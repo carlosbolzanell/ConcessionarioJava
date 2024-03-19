@@ -27,6 +27,7 @@ public class Main {
         carro.addVeiculo();
         moto.addVeiculo();
         caminhao.addVeiculo();
+        RemovedorUsuario remUsuario = new Gerente("","","",1, 1);
         menu();
     }
     public static String input(String texto){
